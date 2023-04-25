@@ -628,6 +628,8 @@ class Board(object):
             n (int): Number of armies on the territory.
         Raises:
             ValueError if n < 1.
+        """
+        if n < 1:
             raise ValueError('Board: cannot set the number of armies to <1 ({tid}, {n}).'.format(tid=territory_id, n=n))
         self.data[territory_id] = Territory(territory_id, self.owner(territory_id), n)
 
@@ -651,12 +653,16 @@ class Board(object):
             int: Number of armies owned by the player.
         """
         return sum((t.armies for t in self.data if t.player_id == player_id))
+
+    def n_territories(self, player_id):
         """
         Count the total number of territories owned by a player.
         Args:
             player_id (int): ID of the player.
         Returns:
             int: Number of territories owned by the player.
+        """
+        return len([None for t in self.data if t.player_id == player_id])
 
     def territories_of(self, player_id):
         """
@@ -666,8 +672,16 @@ class Board(object):
         Returns:
             list: List of all territory IDs owner by the player.
         """
+        return [t.territory_id for t in self.data if t.player_id == player_id]
 
     def mobile(self, player_id):
         """
         Create a generator of all territories of a player which can
         attack or move,
+        i.e. that have more than one army.
+        Args:
+            player_id (int): ID of the attacking player.
+        Returns:
+            generator: Generator of Territories.
+        """
+        return (t for t in self.data if (t.player_id == player_id and t.armies > 1))
