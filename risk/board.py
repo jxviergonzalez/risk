@@ -628,8 +628,6 @@ class Board(object):
             n (int): Number of armies on the territory.
         Raises:
             ValueError if n < 1.
-        """
-        if n < 1:
             raise ValueError('Board: cannot set the number of armies to <1 ({tid}, {n}).'.format(tid=territory_id, n=n))
         self.data[territory_id] = Territory(territory_id, self.owner(territory_id), n)
 
@@ -653,8 +651,6 @@ class Board(object):
             int: Number of armies owned by the player.
         """
         return sum((t.armies for t in self.data if t.player_id == player_id))
-
-    def n_territories(self, player_id):
         """
         Count the total number of territories owned by a player.
         Args:
