@@ -661,8 +661,6 @@ class Board(object):
             player_id (int): ID of the player.
         Returns:
             int: Number of territories owned by the player.
-        """
-        return len([None for t in self.data if t.player_id == player_id])
 
     def territories_of(self, player_id):
         """
@@ -672,16 +670,8 @@ class Board(object):
         Returns:
             list: List of all territory IDs owner by the player.
         """
-        return [t.territory_id for t in self.data if t.player_id == player_id]
 
     def mobile(self, player_id):
         """
         Create a generator of all territories of a player which can
         attack or move,
-        i.e. that have more than one army.
-        Args:
-            player_id (int): ID of the attacking player.
-        Returns:
-            generator: Generator of Territories.
-        """
-        return (t for t in self.data if (t.player_id == player_id and t.armies > 1))
